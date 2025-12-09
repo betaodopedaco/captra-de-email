@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancer AI - Automate Client Acquisition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #111827;
+            background-color: #f9fafb;
+        }
+
+        :root {
+            --primary-base: #1e293b;
+            --primary-dark: #0f172a;
+            --accent: #64748b;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border: #e5e7eb;
+            --success: #059669;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-base) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .signup-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-base) 100%);
+            border-radius: 24px;
+            padding: 48px;
+            color: white;
+            box-shadow: 0 32px 64px rgba(15, 23, 42, 0.15);
+        }
+
+        .signup-form {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 16px;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-base);
+            box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.1);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--primary-dark);
+            color: white;
+            padding: 18px 28px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 8px 32px rgba(15, 23, 42, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 10000;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="padding-top: 100px;">
+        <div class="signup-card">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-size: 32px; margin-bottom: 12px; font-weight: 800;">Start Your Journey Today</h2>
+                <p style="opacity: 0.9; font-size: 16px;">7-day free trial • No credit card required</p>
+            </div>
+            <form id="signupForm" class="signup-form" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="email">Your Best Email</label>
+                    <input type="email" id="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="niche">Your Primary Niche</label>
+                    <select id="niche" required>
+                        <option value="">Select your niche</option>
+                        <option value="web_designer">Web Designer</option>
+                        <option value="graphic_designer">Graphic Design</option>
+                        <option value="marketing">Digital Marketing</option>
+                        <option value="developer">Developer</option>
+                        <option value="writing">Copywriting</option>
+                        <option value="video">Video Editing</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px 32px; font-size: 16px;">
+                    Create Free Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Success!</span>
+    </div>
+
+    <script>
+        const BACKEND_URL = 'https://planos-6vgxf8fd5-betaodopedacos-projects.vercel.app';
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const text = document.getElementById('notificationText');
+            
+            text.textContent = message;
+            
+            if (type === 'error') {
+                notification.style.background = '#ef4444';
+            } else {
+                notification.style.background = 'var(--primary-dark)';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const niche = document.getElementById('niche').value;
+            
+            if (!email || !niche) {
+                showNotification('Please fill all required fields', 'error');
+                return;
+            }
+            
+            try {
+                showNotification('Creating your account...');
+                
+                const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: 'temp123456',
+                        niche: niche
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Account created! Loading dashboard...');
+                    
+                    localStorage.setItem('userId', data.userId);
+                    localStorage.setItem('userNiche', niche);
+                    
+                    setTimeout(() => {
+                        window.location.href = 'https://betaodopedaco.github.io/freelancerprojeto/#dashboard';
+                    }, 1500);
+                } else {
+                    showNotification(data.error || 'Error creating account', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error connecting to server', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
