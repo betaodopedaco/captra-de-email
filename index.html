@@ -7,19 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: #111827;
-            background-color: #f9fafb;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; color: #111827; background: #f9fafb; }
         :root {
             --primary-base: #1e293b;
             --primary-dark: #0f172a;
@@ -32,6 +21,7 @@
             --success: #059669;
         }
 
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .btn {
             display: inline-flex;
             align-items: center;
@@ -45,44 +35,56 @@
             transition: all 0.3s;
             font-size: 14px;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-base) 0%, var(--primary-dark) 100%);
             color: white;
         }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2); }
+        .btn-block { width: 100%; }
+        .btn-lg { padding: 16px 32px; font-size: 16px; }
+        
+        .page { display: none; min-height: 100vh; }
+        .page.active { display: block; }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+        /* LOGIN PAGE */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--background) 0%, #ffffff 100%);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .signup-card {
+        .login-card {
             max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-base) 100%);
             border-radius: 24px;
             padding: 48px;
             color: white;
             box-shadow: 0 32px 64px rgba(15, 23, 42, 0.15);
         }
-
-        .signup-form {
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .login-header h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+        .login-header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .login-form {
             background: var(--surface);
             padding: 40px;
             border-radius: 16px;
             color: var(--text-primary);
         }
-
         .form-group {
             margin-bottom: 28px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 10px;
@@ -90,7 +92,6 @@
             color: var(--text-secondary);
             font-size: 14px;
         }
-
         .form-group input,
         .form-group select {
             width: 100%;
@@ -102,12 +103,127 @@
             background: var(--background);
             color: var(--text-primary);
         }
-
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
             border-color: var(--primary-base);
             box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.1);
+        }
+
+        /* DASHBOARD */
+        .dashboard-container {
+            min-height: 100vh;
+            background: var(--background);
+            padding: 32px;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: var(--surface);
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            border: 1px solid var(--border);
+        }
+        .header-left h1 {
+            font-size: 36px;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+        .header-right {
+            display: flex;
+            gap: 16px;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 28px;
+            margin-bottom: 48px;
+        }
+        .recommendation-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            transition: all 0.4s;
+            border: 1px solid var(--border);
+        }
+        .recommendation-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+            border-color: var(--accent);
+        }
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .company-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-base) 0%, var(--primary-dark) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .company-info h3 {
+            font-size: 20px;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .company-type {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--background);
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        .company-details {
+            margin-bottom: 24px;
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        .detail-item i {
+            width: 20px;
+            color: var(--primary-base);
+            text-align: center;
+        }
+        .pitch-preview {
+            background: var(--background);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            border-left: 4px solid var(--primary-base);
+        }
+        .card-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .card-actions .btn {
+            flex: 1;
         }
 
         .notification {
@@ -127,42 +243,86 @@
             transition: all 0.4s;
             z-index: 10000;
         }
-
         .notification.show {
             transform: translateY(0);
             opacity: 1;
         }
+
+        .loading { text-align: center; padding: 40px; color: var(--text-secondary); }
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary-base);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .dashboard-header { flex-direction: column; gap: 24px; }
+            .header-right { flex-direction: column; width: 100%; }
+            .recommendations-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="container" style="padding-top: 100px;">
-        <div class="signup-card">
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h2 style="font-size: 32px; margin-bottom: 12px; font-weight: 800;">Start Your Journey Today</h2>
-                <p style="opacity: 0.9; font-size: 16px;">7-day free trial • No credit card required</p>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Freelancer AI</h1>
+                    <p>Get 5 clients per day</p>
+                </div>
+                <form id="loginForm" class="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="niche">Your Niche</label>
+                        <select id="niche" required>
+                            <option value="">Select your niche</option>
+                            <option value="web_designer">Web Designer</option>
+                            <option value="graphic_designer">Graphic Designer</option>
+                            <option value="marketing">Digital Marketing</option>
+                            <option value="developer">Developer</option>
+                            <option value="writing">Copywriting</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">Sign In / Create Account</button>
+                </form>
             </div>
-            <form id="signupForm" class="signup-form" onsubmit="handleSignup(event)">
-                <div class="form-group">
-                    <label for="email">Your Best Email</label>
-                    <input type="email" id="email" placeholder="your@email.com" required>
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="page">
+        <div class="dashboard-container">
+            <div class="container">
+                <div class="dashboard-header">
+                    <div class="header-left">
+                        <h1>Your Daily Leads</h1>
+                        <p style="color: var(--text-secondary);">5 companies found for you today</p>
+                    </div>
+                    <div class="header-right">
+                        <button class="btn btn-primary" onclick="logout()">Logout</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="niche">Your Primary Niche</label>
-                    <select id="niche" required>
-                        <option value="">Select your niche</option>
-                        <option value="web_designer">Web Designer</option>
-                        <option value="graphic_designer">Graphic Design</option>
-                        <option value="marketing">Digital Marketing</option>
-                        <option value="developer">Developer</option>
-                        <option value="writing">Copywriting</option>
-                        <option value="video">Video Editing</option>
-                        <option value="other">Other</option>
-                    </select>
+
+                <div id="recommendationsContainer" class="recommendations-grid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p style="margin-top: 20px;">Loading companies...</p>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 16px 32px; font-size: 16px;">
-                    Create Free Account
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -171,15 +331,177 @@
         <span id="notificationText">Success!</span>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_lIkH1FoD97GoBIQFhZ_D56UtVu5NXVI",
+            authDomain: "freelancer-projeto-ccad9.firebaseapp.com",
+            projectId: "freelancer-projeto-ccad9",
+            storageBucket: "freelancer-projeto-ccad9.firebasestorage.app",
+            messagingSenderId: "1097379826448",
+            appId: "1:1097379826448:web:460cf6fcc31a6fa917b395"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
         const BACKEND_URL = 'https://planos-6vgxf8fd5-betaodopedacos-projects.vercel.app';
 
-        function showNotification(message, type = 'success') {
+        let currentUser = null;
+        let currentNiche = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                showPage('dashboardPage');
+                loadUserData();
+            } else {
+                currentUser = null;
+                showPage('loginPage');
+            }
+        });
+
+        window.handleLogin = async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const niche = document.getElementById('niche').value;
+
+            try {
+                showNotification('Authenticating...');
+                
+                try {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    await addDoc(collection(db, 'users'), {
+                        email: email,
+                        niche: niche,
+                        createdAt: new Date()
+                    });
+                } catch (err) {
+                    if (err.code === 'auth/email-already-in-use') {
+                        await signInWithEmailAndPassword(auth, email, password);
+                    } else {
+                        throw err;
+                    }
+                }
+                
+                currentNiche = niche;
+                showNotification('Success! Loading your leads...');
+            } catch (error) {
+                console.error('Auth error:', error);
+                showNotification('Error: ' + error.message, 'error');
+            }
+        };
+
+        window.loadUserData = async () => {
+            try {
+                const q = query(collection(db, 'users'), where('email', '==', currentUser.email));
+                const snapshot = await getDocs(q);
+                
+                if (!snapshot.empty) {
+                    const userData = snapshot.docs[0].data();
+                    currentNiche = userData.niche;
+                }
+
+                loadRecommendations();
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                loadRecommendations();
+            }
+        };
+
+        window.loadRecommendations = async () => {
+            try {
+                showNotification('Fetching your leads...');
+                
+                const response = await fetch(`${BACKEND_URL}/api/recommendations`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        niche: currentNiche || 'web_designer',
+                        lat: 30.2672,
+                        lon: -97.7431
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.recommendations) {
+                    displayRecommendations(data.recommendations);
+                    showNotification('Loaded ' + data.count + ' leads!');
+                } else {
+                    showNotification('Error loading leads', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error loading leads', 'error');
+            }
+        };
+
+        window.displayRecommendations = (companies) => {
+            const container = document.getElementById('recommendationsContainer');
+            container.innerHTML = '';
+
+            companies.forEach((company, idx) => {
+                const card = document.createElement('div');
+                card.className = 'recommendation-card';
+                card.innerHTML = `
+                    <div class="company-header">
+                        <div class="company-avatar">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>${company.nome}</h3>
+                            <span class="company-type">${company.tipo}</span>
+                        </div>
+                    </div>
+                    <div class="company-details">
+                        <div class="detail-item">
+                            <i class="fas fa-phone"></i>
+                            <span>${company.contato?.telefone || 'N/A'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-globe"></i>
+                            <span>${company.contato?.website || 'N/A'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>${company.contato?.email || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <div class="pitch-preview">
+                        <p>${company.pitch ? company.pitch.substring(0, 150) + '...' : 'Pitch loading...'}</p>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="copyPitch('${company.pitch}')">
+                            <i class="far fa-copy"></i> Copy Pitch
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        window.copyPitch = (pitch) => {
+            navigator.clipboard.writeText(pitch);
+            showNotification('Pitch copied!');
+        };
+
+        window.showPage = (pageId) => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        };
+
+        window.showNotification = (message, type = 'success') => {
             const notification = document.getElementById('notification');
             const text = document.getElementById('notificationText');
             
             text.textContent = message;
-            
             if (type === 'error') {
                 notification.style.background = '#ef4444';
             } else {
@@ -187,57 +509,17 @@
             }
             
             notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        };
 
-        async function handleSignup(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const niche = document.getElementById('niche').value;
-            
-            if (!email || !niche) {
-                showNotification('Please fill all required fields', 'error');
-                return;
-            }
-            
+        window.logout = async () => {
             try {
-                showNotification('Creating your account...');
-                
-                const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: 'temp123456',
-                        niche: niche
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showNotification('Account created! Loading dashboard...');
-                    
-                    localStorage.setItem('userId', data.userId);
-                    localStorage.setItem('userNiche', niche);
-                    
-                    setTimeout(() => {
-                        window.location.href = 'https://betaodopedaco.github.io/freelancerprojeto/#dashboard';
-                    }, 1500);
-                } else {
-                    showNotification(data.error || 'Error creating account', 'error');
-                }
+                await signOut(auth);
+                showNotification('Logged out!');
             } catch (error) {
-                console.error('Error:', error);
-                showNotification('Error connecting to server', 'error');
+                showNotification('Error logging out', 'error');
             }
-        }
+        };
     </script>
 </body>
 </html>
